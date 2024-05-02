@@ -1,0 +1,12 @@
+﻿services:
+  portfolio:
+    image: portfolio
+    build:
+      context: .
+      dockerfile: Portfolio/Dockerfile
+    container_name: portfolio
+    volumes:
+      - ${PORTFOLIO_FILES_DIRECTORY}:/Files
+    expose:
+      - "8080"
+      

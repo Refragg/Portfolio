@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <base href="/"/>
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css"/>
+    <link rel="stylesheet" href="bootstrap/icons/bootstrap-icons.css"/>
+    <link rel="stylesheet" href="app.css"/>
+    <link rel="stylesheet" href="Portfolio.styles.css"/>
+    <link rel="icon" type="image/png" href="favicon.png"/>
+    <script src="jquery-3.7.1.min.js"></script>
+    
+    <script>
+        function fadeOut(elementSelector, duration, link) {
+            $(elementSelector).fadeOut(duration, function() {
+                window.location.href = link;
+            });
+        }
+        
+        window.addEventListener('load', function () {
+            $('main').hide().fadeIn(800);
+
+            $('.location-changer').click(function(){
+                fadeOut('main', 400, $(this).attr('href'))
+                return false;
+            });
+        });
+    </script>
+    
+    <HeadOutlet/>
+</head>
+
+<body>
+<Routes/>
+
+<script src="_framework/blazor.web.js"></script>
+</body>
+
+</html>

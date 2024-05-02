@@ -1,0 +1,165 @@
+﻿@page "/projets"
+@inject ILogger<Projets> Logger
+@inject IWebHostEnvironment Environment
+
+<PageTitle>Portfolio - Projets</PageTitle>
+
+<link href="aos/aos-delays.css" rel="stylesheet">
+<link href="aos/aos.css" rel="stylesheet">
+<script src="aos/aos.js"></script>
+<script>AOS.init();</script>
+
+<h3>Projets</h3>
+
+Voici les différents projets sur lesquels j'ai travaillé :
+
+<style>
+    .card {
+        transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);    
+    }
+    
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+        cursor: pointer;
+    }
+    
+    .card-footer {
+        background-color: #F9F9F9;
+    }
+
+    .footer-column {
+        background-color: #F9F9F9;
+        text-align: center;
+        color: inherit;
+        text-decoration: none;
+    }
+    
+    @@media (min-width: 641px) {
+        .card {
+            width: 260px;
+        }
+        .card-img-top {
+            width: 100%;
+            height: 16.1rem;
+            object-fit: cover;
+            padding: 1rem;
+        }
+    }
+    @@media (max-width: 640.98px) {
+        .card {
+            width: 300px;
+        }
+        .card-img-top {
+            width: 100%;
+            height: 18.65rem;
+            object-fit: cover;
+            padding: 1rem;
+        }
+    }
+</style>
+
+<div class="d-flex" style="padding-top: 1rem;">
+    <div class="d-flex row justify-content-center g-5">
+        @{ _currentAnimationDelay = AnimationStartTime; }
+        @foreach (var projet in Projects)
+        {
+            _currentAnimationDelay += AnimationInterval;
+            _currentAnimationDelay = Math.Min(_currentAnimationDelay, AnimationMaxDelay);
+            <div class="col-sm" id="projects-grid">
+                <div data-aos-anchor="#projects-grid" data-aos="fade-up" data-aos-once="true" data-aos-delay="@_currentAnimationDelay">
+                    <div class="location-changer card mx-auto" href="@projet.Link">
+                        <img class="card-img-top" src="@projet.ThumbnailPath" alt="Image du projet">
+                        <div class="card-body">
+                            <h5 class="card-title">@projet.Name</h5>
+                            <p class="card-text">@projet.Description</p>
+                        </div>
+                        <div class="card-footer" style="padding:0!important;">
+                            <div class="d-flex row" style="margin:0!important;flex-direction: row">
+                                <div class="col col-sm footer-column align-self-center" style="white-space: pre-line">
+                                    @projet.Year
+                                </div>
+                                <div style="border-left:1px solid #B9B9B9;width: 1px;padding: 0;margin: 0"></div>
+                                <div class="col col-sm footer-column align-self-center" style="white-space: pre-line">
+                                    @projet.Language
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    public record Projet(
+        string Name,
+        string Description,
+        string ThumbnailPath,
+        string Year,
+        string Language,
+        string Link);
+
+    private int _currentAnimationDelay;
+
+    private const int AnimationStartTime = 50;
+    private const int AnimationInterval = 400;
+    private const int AnimationMaxDelay = 9000;
+    
+    private static List<Projet>? _projects;
+
+    public List<Projet> Projects
+    {
+        get
+        {
+            if (_projects == default)
+                _projects = GetProjects();
+
+            return _projects;
+        }
+    }
+
+    private const char Separator = '|';
+
+    private List<Projet> GetProjects() =>
+        [new Projet("PersonnelManager",
+            "Une application pour gérer le personnel et leurs absences dans une entreprise",
+            "img/personnelmanager-icon.ico",
+            "BTS SIO\n1ère année",
+            "C#",
+            "/projets/PersonnelManager"),
+            
+        new Projet("Portfolio",
+            "Le portfolio que vous visitez actuellement",
+            "favicon.png",
+            "BTS SIO\n1ère année",
+            "ASP.NET Core",
+            "/projets/Portfolio")];
+
+    // Load the projects from a CSV file with the separator being whatever is defined in the variable above.
+    // Unused for now as the hardcoded method has been chosen instead
+    private List<Projet> GetProjectsFromFile()
+    {
+        // Load the lines in the file and use the proper character for newlines.
+        var lines = File.ReadAllLines(Path.Combine(Environment.WebRootPath, "projects.csv"))
+            .Select(x => x.Replace("\\n", "\n")).ToArray();
+        
+        var projects = new List<Projet>(lines.Length);
+
+        for (var i = 0; i < lines.Length; i++)
+        {
+            var parts = lines[i].Split(Separator);
+
+            if (parts.Length != 6)
+            {
+                Logger.LogWarning($"Invalid project at line {i} of the projects file");
+                continue;
+            }
+
+            projects.Add(new Projet(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5]));
+        }
+
+        return projects;
+    }
+}

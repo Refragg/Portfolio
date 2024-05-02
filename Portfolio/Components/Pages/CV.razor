@@ -1,0 +1,32 @@
+﻿@page "/cv"
+
+<PageTitle>Portfolio - Curriculum Vitae</PageTitle>
+
+<style>
+    @@media (max-width: 640.98px) {
+        .line-item {
+            padding: 0.5rem 0.5rem;
+        }
+    }
+    
+    @@media (min-width: 641px) {
+        .line-item {
+            padding: 0.5rem 3rem;
+        }
+    }
+</style>
+
+<div class="d-flex justify-content-center">
+    <div class="d-flex line-item align-items-center">
+        <h4 style="margin: auto;">Curriculum Vitae</h4>
+    </div>
+    <div class="d-flex line-item align-items-center">
+        <a class="btn btn-outline-primary" role="button" href="files/CV.pdf" download="CV FRANCART Jérémy.pdf">
+            <span class="bi-download" style="font-size: 1.20rem; margin-right: 0.2rem;"></span>
+            Télécharger
+        </a>
+    </div>
+</div>
+
+<img class="img-fluid" src="files/CV.svg"/>
+
