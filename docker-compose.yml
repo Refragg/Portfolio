@@ -9,4 +9,6 @@
       - ${PORTFOLIO_FILES_DIRECTORY}:/Files
     expose:
       - "8080"
+    environment:
+      - PORTFOLIO_MAIL_HREF=${PORTFOLIO_MAIL_HREF}
       

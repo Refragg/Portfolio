@@ -27,12 +27,19 @@
         </div>
         
         <div class="d-flex socials justify-content-center">
-            <a class="navbar-bottom-line-item align-self-center" href="https://github.com/Refragg" target="_blank" style="">
+            <a class="navbar-bottom-line-item align-self-center" href="https://github.com/Refragg" target="_blank">
                 <span class="d-flex bi-socials bi-github align-self-center" style="color: white"></span>
             </a>
-            <a class="navbar-bottom-line-item align-self-center" href="https://www.linkedin.com/in/j%C3%A9r%C3%A9my-francart-80a299290/" target="_blank" style="">
+            <a class="navbar-bottom-line-item align-self-center" href="https://www.linkedin.com/in/j%C3%A9r%C3%A9my-francart-80a299290/" target="_blank">
                 <span class="d-flex bi-socials bi-linkedin align-self-center" style="color: white"></span>
+            </a>
+            <a class="navbar-bottom-line-item align-self-center" href=@_mailHref target="_blank">
+                <span class="d-flex bi-socials bi-envelope-open-fill align-self-center" style="color: white"></span>
             </a>
         </div>
     </div>
 </nav>
+
+@code {
+    string? _mailHref = Environment.GetEnvironmentVariable("PORTFOLIO_MAIL_HREF");
+}

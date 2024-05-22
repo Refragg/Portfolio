@@ -7,7 +7,8 @@
         "launchBrowser": true,
         "applicationUrl": "http://localhost:5044;http://0.0.0.0:5044",
         "environmentVariables": {
-          "ASPNETCORE_ENVIRONMENT": "Development"
+          "ASPNETCORE_ENVIRONMENT": "Development",
+          "PORTFOLIO_MAIL_HREF": "mailto:your.mail@address.com"
         }
       }
     }
