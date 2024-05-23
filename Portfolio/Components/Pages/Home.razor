@@ -1,8 +1,45 @@
 ﻿@page "/"
 
+<style>
+    /* The tooltip arrow kinda looks ugly, so, just don't display it :) */
+    .tooltip-arrow {
+        display: none !important;
+    }
+    /* The tooltip box */
+    .tooltip-inner {
+        border-radius: 3px;
+        box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.4);
+    }
+    /* The tooltip text */
+    .tooltip {
+        font-size: 14px;
+    }
+    
+    /* The element that gets a tooltip when hovered */
+    .tooltip-text-hint {
+        text-decoration: underline cadetblue;
+        font-weight: bold;
+    }
+</style>
+
+<script>
+    $(document).ready(function(){
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        tooltipTriggerList.forEach(x => {
+            x.classList.add("tooltip-text-hint")
+            x.setAttribute("data-bs-placement", "bottom")
+        })
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl, { delay: { "show": 250, "hide": 250 } }))
+    });
+</script>
+
 <PageTitle>Portfolio - Accueil</PageTitle>
 
 <h3>Portfolio de <b>FRANCART Jérémy</b></h3>
 
 Bienvenue sur mon portfolio !<br/>
-<u><strong>Les différentes sections sont encore en construction !</strong></u>
+Je suis un étudiant en <span data-bs-toggle="tooltip" data-bs-title="Brevet de technicien supérieur">BTS</span> <span data-bs-toggle="tooltip" data-bs-title="Services informatiques aux organisations">SIO</span> en option <span data-bs-toggle="tooltip" data-bs-title="Solution logicielles et applications métiers">SLAM</span> passionné par le développement d'outils et d'applications.<br/><br/>
+
+Vous pouvez cliquer sur les différentes sections du menu pour accéder a mes réalisations personnelles et au cours de mes études<br/><br/>
+
+<u><strong>Attention: Les différentes sections de ce portfolio sont encore en construction !</strong></u>
