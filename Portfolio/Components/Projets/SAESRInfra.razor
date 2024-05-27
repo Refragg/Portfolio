@@ -1,0 +1,49 @@
+﻿@page "/projets/SAESRInfra"
+
+<PageTitle>Portfolio - Infrastructure SAESR</PageTitle>
+
+<a class="location-changer btn btn-outline-primary" role="button" href="projets">
+    <span class="bi-arrow-return-left" style="font-size: 1.20rem; margin-right: 0.2rem;"></span>
+    Retour aux projets
+</a>
+
+<h3 style="padding-top: 0.5rem">Gestion de l'infrastructure pour SAESR</h3>
+
+Cette section représente la création et la gestion de plusieurs sites, services et applications utiles à l'organisation SAESR qui héberge des tournois en ligne sur des jeux vidéos.<br/><br/>
+
+J'ai notamment déployé sur un VPS loué les services <a href="https://bingo.saesr.events">bingo.saesr.events</a>, <a href="https://files.saesr.events">files.saesr.events</a> ainsi que un bot Discord et un proxy vers un serveur de jeu.<br/><br/>
+Pour rendre les sites internet accessibles au public, ils sont placés derrière un proxy inversé et les services communiquent entre eux à l'aide de réseaux Docker.<br/>
+Le déploiement des sites implique aussi de gérer les certificats SSL qui sont renouvelés à l'aide d'un script sans avoir besoin de les redémarrer.<br/> 
+Enfin, il a aussi fallu gérer les paramètres DNS du domaine afin de pouvoir rediriger les utilisateurs vers le bon service.<br/>
+
+<div style="padding-top: 0.5rem">
+    <a class="btn btn-outline-primary" role="button" href="https://github.com/Refragg/FileLister" target="_blank">
+        <span class="bi-github" style="font-size: 1.20rem; margin-right: 0.2rem;"></span>
+        Voir sur GitHub - files.saesr.events
+    </a>
+</div>
+
+<div style="padding-top: 0.5rem">
+    <a class="btn btn-outline-primary" role="button" href="https://github.com/Refragg/docker-bingosync" target="_blank">
+        <span class="bi-github" style="font-size: 1.20rem; margin-right: 0.2rem;"></span>
+        Voir sur GitHub - bingo.saesr.events
+    </a>
+</div>
+
+<div style="padding-top: 0.5rem">
+    <a class="btn btn-outline-primary" role="button" href="https://github.com/Refragg/SAESRPredictionsBot" target="_blank">
+        <span class="bi-github" style="font-size: 1.20rem; margin-right: 0.2rem;"></span>
+        Voir sur GitHub - bot Discord
+    </a>
+</div>
+
+<div style="padding-top: 0.5rem">
+    <a class="btn btn-outline-primary" role="button" href="https://saesr.events" target="_blank">
+        <span class="bi-globe2" style="font-size: 1.20rem; margin-right: 0.2rem;"></span>
+        Voir le site internet principal
+    </a>
+</div>
+
+@code {
+    
+}
