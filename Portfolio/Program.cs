@@ -17,6 +17,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseStatusCodePagesWithRedirects("/Error?code={0}");
+
 app.UseStaticFiles();
 
 app.UseStaticFiles(new StaticFileOptions
