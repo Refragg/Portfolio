@@ -1,0 +1,132 @@
+﻿@page "/présentation"
+
+<link rel="stylesheet" href="tooltip.css">
+<script src="tooltip.js"></script>
+
+<PageTitle>Portfolio - Présentation</PageTitle>
+
+<style>
+    #prespersoarrow[collapsed] {
+        transform: rotate(90deg);
+        transition: all .25s;
+    }
+    #prespersoarrow:not([collapsed]) {
+        transition: all .25s;
+    }
+
+    #presbtsarrow[collapsed] {
+        transform: rotate(90deg);
+        transition: all .25s;
+    }
+    #presbtsarrow:not([collapsed]) {
+        transition: all .25s;
+    }
+
+</style>
+
+<script>
+    window.addEventListener('load', function (e) {
+        // Trigger the collapse animation on load
+        $("#presperso").collapse()
+        $("#presbts").collapse()
+        toggleCollapsed(1, "prespersoarrow")
+        toggleCollapsed(1, "presbtsarrow")
+
+        // On click on the text / arrow, toggle the arrow collapsed state
+        document.getElementById("prespersotext").addEventListener('click', function (e) { toggleCollapsed(e.detail, "prespersoarrow");})
+        document.getElementById("prespersoarrow").addEventListener('click', function (e) { toggleCollapsed(e.detail, "prespersoarrow");})
+
+        document.getElementById("presbtstext").addEventListener('click', function (e) { toggleCollapsed(e.detail, "presbtsarrow"); })
+        document.getElementById("presbtsarrow").addEventListener('click', function (e) { toggleCollapsed(e.detail, "presbtsarrow"); })
+    })
+    
+    setInterval(() => {
+        // In case the arrows state gets desynchronized with the card box status, toggle the arrow again
+        let persoArrowElement = document.getElementById("prespersoarrow")
+        let persoCollapsingElement = document.getElementById("presperso")
+
+        let btsArrowElement = document.getElementById("presbtsarrow")
+        let btsCollapsingElement = document.getElementById("presbts")
+
+        if (persoArrowElement.hasAttribute("collapsed") !== persoCollapsingElement.classList.contains("show")
+        && !persoCollapsingElement.classList.contains("collapsing"))
+            persoArrowElement.toggleAttribute("collapsed")
+            
+        if (btsArrowElement.hasAttribute("collapsed") !== btsCollapsingElement.classList.contains("show")
+        && !btsCollapsingElement.classList.contains("collapsing"))
+            btsArrowElement.toggleAttribute("collapsed")
+    }, 200)
+    
+    async function toggleCollapsed(clicks, elementId) {
+        // We don't want to take in double clicks
+        if (clicks === 1)
+            document.getElementById(elementId).toggleAttribute("collapsed")
+    }
+</script>
+
+<h3>Présentation</h3>
+
+<div class="collapse-group" id="prespersogroup">
+    <div style="display: inline-flex;">
+        <h4 class="m-auto text-decoration-underline pe-2" id="prespersotext" data-bs-toggle="collapse" data-bs-target="#presperso">Présentation personnelle</h4>
+        <p class="m-auto" id="prespersoarrow" data-bs-toggle="collapse" data-bs-target="#presperso">▶</p>
+    </div>
+    <div class="collapse" id="presperso">
+        <div class="pt-3">
+            <div class="card card-body" style="width: fit-content; height: fit-content; margin: auto">
+                <p style="margin: 0; text-align: justify">
+                    Je me prénomme Jérémy Francart, j'ai 22 ans et j'habite à Châlons-en-Champagne.<br/>
+                    <br/>
+                    Actuellement étudiant en 2ème année de <span data-bs-toggle="tooltip" data-bs-title="Brevet de technicien supérieur">BTS</span> <span data-bs-toggle="tooltip" data-bs-title="Services informatiques aux organisations">SIO</span> en option <span data-bs-toggle="tooltip" data-bs-title="Solution logicielles et applications métiers">SLAM</span>, au Campus by Alméa de Châlons-en-Champagne en partenariat avec le <span data-bs-toggle="tooltip" data-bs-title="Centre national d'enseignement à distance">CNED</span>.<br/>
+                    De plus, j'ai eu un parcours atypique. En effet, après ma terminale générale Scientifique, j'ai décroché l'école en raison d'un développement de phobies scolaires et sociales.<br/>
+                    De ce fait, après trois années à résoudre mes problématiques, j'ai intégré l'École de la deuxième chance de Châlons-en-Champagne où j'ai réussi à réintégrer mon BTS.<br/>
+                    Fort de ces apprentissages de vie, je souhaiterai poursuivre mon cursus scolaire en Bachelor Architecture des Logiciels l'année prochaine.<br/>
+                    <br/>
+                    Ainsi, je suis passionné par le développement d'outils, d'applications et l'informatique en général.<br/>
+                    Je suis aussi intéressé par le milieu des Formule 1, des courses automobiles et la pratique du speedrunning.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="collapse-group pt-2" id="presbtsgroup">
+    <div style="display: inline-flex;">
+        <h4 class="m-auto text-decoration-underline pe-2" id="presbtstext" data-bs-toggle="collapse" data-bs-target="#presbts">Présentation du BTS SIO</h4>
+        <p class="m-auto" id="presbtsarrow" data-bs-toggle="collapse" data-bs-target="#presbts">▶</p>
+    </div>
+    <div class="collapse" id="presbts">
+        <div class="pb-2 pt-3">
+            <div class="card card-body" style="width: fit-content; height: fit-content; margin: auto">
+                <p style="margin: 0; text-align: justify">
+                    Le <span data-bs-toggle="tooltip" data-bs-title="Brevet de technicien supérieur">BTS</span> <span data-bs-toggle="tooltip" data-bs-title="Services informatiques aux organisations">SIO</span> est un diplôme spécialisé dans l'informatique dans lequel on aborde beaucoup de compétences différentes.<br/>
+                    Il est possible de choisir entre deux options distinctes : l'option <span data-bs-toggle="tooltip" data-bs-title="Solutions d’infrastructure, systèmes et réseaux">SISR</span> se concentre sur la conception, l'administration et la maintenance d'infrastructures systèmes et réseaux. Puis, l'option <span data-bs-toggle="tooltip" data-bs-title="Solution logicielles et applications métiers">SLAM</span> se concentre sur le développement, la maintenance et la gestion d'une application et de ses données. J'ai personnelement choisi l'option SLAM<br/>
+                    <br/>
+                    Le BTS SIO comporte 7 matières distinctes :<br/>
+                </p>
+                <ul style="margin: 0; width: fit-content; text-align: justify">
+                    <li><strong>Culture générale et expression</strong></li>
+                    <li><strong>Culture économique, juridique et managériale</strong></li>
+                    <li><strong>Anglais</strong></li>
+                </ul>
+                <p style="margin: 0; text-align: justify">
+                    Puis, on retrouve les matières sur les compétences professionnelles :
+                </p>
+                <ul style="margin: 0; width: fit-content; text-align: justify">
+                    <li><strong>Support et mise à disposition des services informatiques</strong> : cette matière à pour but de former un technicien de niveau 1 ayant des compétences basiques dans tous les domaines (infrastructures, réseaux, développement, gestion de projet...)</li>
+                    <li><strong>Conception et développement d’applications (option SLAM)</strong> : cette matière traite de la spécialité choisie, on y apprend à développer des applications natives, web et mobile, assurer leur maintenance et leurs évolutions ainsi qu'à gérer les données en utilisant des bases de données.</li>
+                    <li><strong>Cybersécurité des services informatiques (option SLAM)</strong> : cette matière apprend à sécuriser les systèmes, réseaux et applications que l'on développe, on y apprend aussi les différentes règlementations à respecter ainsi que la sensibilisation des utilisateurs. Cette matière s'appuie également sur les savoirs des 2 précédentes matières.</li>
+                    <li><strong>Mathématiques pour l’informatique</strong> : le bloc mathématiques regroupe 2 matières en une :</li>
+                    <ul>
+                        <li><strong>Mathématiques enseignement général</strong> : cette matière nous apprend à utiliser des outils mathématiques pour résoudre des problèmes informatiques.</li>
+                        <li><strong>Algorithmique appliquée</strong> : cette matière nous apprend la logique algorithmique qui est essentielle pour bien comprendre la logique de programmation et pour pouvoir réaliser un programme ou une fonction en pseudo-code qui pourra ensuite être compris par une personne non initiée aux langages de programmation.</li>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    
+}
