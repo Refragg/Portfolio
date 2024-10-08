@@ -1,37 +1,7 @@
 ﻿@page "/"
 
-<style>
-    /* The tooltip arrow kinda looks ugly, so, just don't display it :) */
-    .tooltip-arrow {
-        display: none !important;
-    }
-    /* The tooltip box */
-    .tooltip-inner {
-        border-radius: 3px;
-        box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.4);
-    }
-    /* The tooltip text */
-    .tooltip {
-        font-size: 14px;
-    }
-    
-    /* The element that gets a tooltip when hovered */
-    .tooltip-text-hint {
-        text-decoration: underline cadetblue;
-        font-weight: bold;
-    }
-</style>
-
-<script>
-    $(document).ready(function(){
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-        tooltipTriggerList.forEach(x => {
-            x.classList.add("tooltip-text-hint")
-            x.setAttribute("data-bs-placement", "bottom")
-        })
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl, { delay: { "show": 250, "hide": 250 } }))
-    });
-</script>
+<link rel="stylesheet" href="tooltip.css">
+<script src="tooltip.js"></script>
 
 <PageTitle>Portfolio - Accueil</PageTitle>
 

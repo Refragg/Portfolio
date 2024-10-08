@@ -1,0 +1,19 @@
+/* The tooltip arrow kinda looks ugly, so, just don't display it :) */
+.tooltip-arrow {
+    display: none !important;
+}
+/* The tooltip box */
+.tooltip-inner {
+    border-radius: 3px;
+    box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.4);
+}
+/* The tooltip text */
+.tooltip {
+    font-size: 14px;
+}
+
+/* The element that gets a tooltip when hovered */
+.tooltip-text-hint {
+    text-decoration: underline cadetblue;
+    font-weight: bold;
+}
