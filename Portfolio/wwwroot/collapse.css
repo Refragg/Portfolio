@@ -1,0 +1,11 @@
+﻿.collapse-arrow[collapsed] {
+    transform: rotate(90deg);
+    transition: all .25s;
+}
+.collapse-arrow:not([collapsed]) {
+    transition: all .25s;
+}
+
+.collapser {
+    cursor: pointer;
+}

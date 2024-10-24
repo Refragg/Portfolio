@@ -2,74 +2,32 @@
 
 <link rel="stylesheet" href="tooltip.css">
 <script src="tooltip.js"></script>
+<link rel="stylesheet" href="collapse.css">
+<script src="collapse.js"></script>
 
 <PageTitle>Portfolio - Présentation</PageTitle>
 
-<style>
-    #prespersoarrow[collapsed] {
-        transform: rotate(90deg);
-        transition: all .25s;
-    }
-    #prespersoarrow:not([collapsed]) {
-        transition: all .25s;
-    }
-
-    #presbtsarrow[collapsed] {
-        transform: rotate(90deg);
-        transition: all .25s;
-    }
-    #presbtsarrow:not([collapsed]) {
-        transition: all .25s;
-    }
-
-</style>
-
-<script>
+<script>    
     window.addEventListener('load', function (e) {
         // Trigger the collapse animation on load
-        $("#presperso").collapse()
-        $("#presbts").collapse()
-        toggleCollapsed(1, "prespersoarrow")
-        toggleCollapsed(1, "presbtsarrow")
+        toggleCollapsable("presperso", "prespersoarrow")
+        toggleCollapsable("presbts", "presbtsarrow")
 
-        // On click on the text / arrow, toggle the arrow collapsed state
-        document.getElementById("prespersotext").addEventListener('click', function (e) { toggleCollapsed(e.detail, "prespersoarrow");})
-        document.getElementById("prespersoarrow").addEventListener('click', function (e) { toggleCollapsed(e.detail, "prespersoarrow");})
+        // Add on click event listeners
+        document.getElementById("prespersotext").addEventListener('click', function (e) { toggleCollapsable("presperso", "prespersoarrow");})
+        document.getElementById("prespersoarrow").addEventListener('click', function (e) { toggleCollapsable("presperso", "prespersoarrow");})
 
-        document.getElementById("presbtstext").addEventListener('click', function (e) { toggleCollapsed(e.detail, "presbtsarrow"); })
-        document.getElementById("presbtsarrow").addEventListener('click', function (e) { toggleCollapsed(e.detail, "presbtsarrow"); })
+        document.getElementById("presbtstext").addEventListener('click', function (e) { toggleCollapsable("presbts", "presbtsarrow"); })
+        document.getElementById("presbtsarrow").addEventListener('click', function (e) { toggleCollapsable("presbts", "presbtsarrow"); })
     })
-    
-    setInterval(() => {
-        // In case the arrows state gets desynchronized with the card box status, toggle the arrow again
-        let persoArrowElement = document.getElementById("prespersoarrow")
-        let persoCollapsingElement = document.getElementById("presperso")
-
-        let btsArrowElement = document.getElementById("presbtsarrow")
-        let btsCollapsingElement = document.getElementById("presbts")
-
-        if (persoArrowElement.hasAttribute("collapsed") !== persoCollapsingElement.classList.contains("show")
-        && !persoCollapsingElement.classList.contains("collapsing"))
-            persoArrowElement.toggleAttribute("collapsed")
-            
-        if (btsArrowElement.hasAttribute("collapsed") !== btsCollapsingElement.classList.contains("show")
-        && !btsCollapsingElement.classList.contains("collapsing"))
-            btsArrowElement.toggleAttribute("collapsed")
-    }, 200)
-    
-    async function toggleCollapsed(clicks, elementId) {
-        // We don't want to take in double clicks
-        if (clicks === 1)
-            document.getElementById(elementId).toggleAttribute("collapsed")
-    }
 </script>
 
 <h3>Présentation</h3>
 
 <div class="collapse-group" id="prespersogroup">
     <div style="display: inline-flex;">
-        <h4 class="m-auto text-decoration-underline pe-2" id="prespersotext" data-bs-toggle="collapse" data-bs-target="#presperso">Présentation personnelle</h4>
-        <p class="m-auto" id="prespersoarrow" data-bs-toggle="collapse" data-bs-target="#presperso">▶</p>
+        <h4 class="m-auto text-decoration-underline pe-2 collapser" id="prespersotext">Présentation personnelle</h4>
+        <p class="m-auto collapse-arrow collapser" id="prespersoarrow">▶</p>
     </div>
     <div class="collapse" id="presperso">
         <div class="pt-3">
@@ -92,8 +50,8 @@
 
 <div class="collapse-group pt-2" id="presbtsgroup">
     <div style="display: inline-flex;">
-        <h4 class="m-auto text-decoration-underline pe-2" id="presbtstext" data-bs-toggle="collapse" data-bs-target="#presbts">Présentation du BTS SIO</h4>
-        <p class="m-auto" id="presbtsarrow" data-bs-toggle="collapse" data-bs-target="#presbts">▶</p>
+        <h4 class="m-auto text-decoration-underline pe-2 collapser" id="presbtstext">Présentation du BTS SIO</h4>
+        <p class="m-auto collapse-arrow collapser" id="presbtsarrow">▶</p>
     </div>
     <div class="collapse" id="presbts">
         <div class="pb-2 pt-3">
