@@ -16,4 +16,5 @@
 .tooltip-text-hint {
     text-decoration: underline cadetblue;
     font-weight: bold;
+    cursor: help;
 }
