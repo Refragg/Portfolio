@@ -1,0 +1,128 @@
+﻿@page "/pro"
+
+<PageTitle>Portfolio - Expériences pro</PageTitle>
+
+<link href="aos/aos-delays.css" rel="stylesheet">
+<link href="aos/aos.css" rel="stylesheet">
+<script src="aos/aos.js"></script>
+<script>AOS.init();</script>
+
+<h3>Expériences professionnelles</h3>
+
+Voici les différentes expériences professionnelles que j'ai pu avoir :
+
+<style>
+    .card {
+        transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+        cursor: pointer;
+    }
+
+    .card-footer {
+        background-color: #F9F9F9;
+    }
+
+    .footer-column {
+        background-color: #F9F9F9;
+        text-align: center;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    @@media (min-width: 641px) {
+        .card {
+            width: 260px;
+        }
+        .card-img-top {
+            width: 100%;
+            height: 16.1rem;
+            object-fit: cover;
+            padding: 1rem;
+        }
+    }
+    @@media (max-width: 640.98px) {
+        .card {
+            width: 300px;
+        }
+        .card-img-top {
+            width: 100%;
+            height: 18.65rem;
+            object-fit: cover;
+            padding: 1rem;
+        }
+    }
+</style>
+
+<div class="d-flex" style="padding-top: 1rem;">
+    <div class="d-flex row justify-content-center g-5">
+        @{ _currentAnimationDelay = AnimationStartTime; }
+        @foreach (var experience in Experiences)
+        {
+        _currentAnimationDelay += AnimationInterval;
+        _currentAnimationDelay = Math.Min(_currentAnimationDelay, AnimationMaxDelay);
+        <div class="col-sm" id="experience-grid">
+            <div data-aos-anchor="#experience-grid" data-aos="fade-up" data-aos-once="true" data-aos-delay="@_currentAnimationDelay">
+                <div class="location-changer card mx-auto" href="@experience.Link">
+                    <img class="card-img-top" src="@experience.ThumbnailPath" alt="Image de l'expérience">
+                    <div class="card-body">
+                        <h5 class="card-title">@experience.Name</h5>
+                        <p class="card-text">@experience.Description</p>
+                    </div>
+                    <div class="card-footer" style="padding:0!important;">
+                        <div class="d-flex row" style="margin:0!important;flex-direction: row">
+                            <div class="col col-sm footer-column align-self-center" style="white-space: pre-line">
+                                @experience.Year
+                            </div>
+                            <div style="border-left:1px solid #B9B9B9;width: 1px;padding: 0;margin: 0"></div>
+                            <div class="col col-sm footer-column align-self-center" style="white-space: pre-line">
+                                @experience.Type
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+</div>
+
+@code {
+    public record Experience(
+        string Name,
+        string Description,
+        string ThumbnailPath,
+        string Year,
+        string Type,
+        string Link);
+
+    private int _currentAnimationDelay;
+
+    private const int AnimationStartTime = 50;
+    private const int AnimationInterval = 400;
+    private const int AnimationMaxDelay = 9000;
+    
+    private static List<Experience>? _experiences;
+
+    public List<Experience> Experiences
+    {
+        get
+        {
+            if (_experiences == default)
+                _experiences = GetExperiences();
+
+            return _experiences;
+        }
+    }
+
+    private List<Experience> GetExperiences() =>
+        [new Experience("Direction Générale des Finances Publiques",
+            "Agent Cellule Informatique Départementale",
+            "files/Pro/DGFIP/dgfip.png",
+            "BTS SIO\n1ère année",
+            "Stage de 5 semaines",
+            "/pro/dgfip")];
+}

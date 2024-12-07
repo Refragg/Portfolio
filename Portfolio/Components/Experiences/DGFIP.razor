@@ -1,0 +1,97 @@
+﻿@page "/pro/dgfip"
+
+<link rel="stylesheet" href="tooltip.css">
+<script src="tooltip.js"></script>
+<link rel="stylesheet" href="collapse.css">
+<script src="collapse.js"></script>
+
+<PageTitle>Portfolio - DGFIP</PageTitle>
+
+<script>
+    window.addEventListener('load', function (e) {
+        // Trigger the collapse animation on load
+        toggleCollapsable("presdgfip", "presdgfiparrow")
+        toggleCollapsable("presctx", "presctxarrow")
+        toggleCollapsable("presmissions", "presmissionsarrow")
+
+        // Add on click event listeners
+        document.getElementById("presdgfiptext").addEventListener('click', function (e) { toggleCollapsable("presdgfip", "presdgfiparrow");})
+        document.getElementById("presdgfiparrow").addEventListener('click', function (e) { toggleCollapsable("presdgfip", "presdgfiparrow");})
+
+        document.getElementById("presctxtext").addEventListener('click', function (e) { toggleCollapsable("presctx", "presctxarrow");})
+        document.getElementById("presctxarrow").addEventListener('click', function (e) { toggleCollapsable("presctx", "presctxarrow");})
+
+        document.getElementById("presmissionstext").addEventListener('click', function (e) { toggleCollapsable("presmissions", "presmissionsarrow");})
+        document.getElementById("presmissionsarrow").addEventListener('click', function (e) { toggleCollapsable("presmissions", "presmissionsarrow");})
+    })
+</script>
+
+<a class="location-changer btn btn-outline-primary" role="button" href="pro">
+    <span class="bi-arrow-return-left" style="font-size: 1.20rem; margin-right: 0.2rem;"></span>
+    Retour aux expériences professionnelles
+</a>
+
+<h3 style="padding-top: 0.5rem">Direction Générale des Finances Publiques</h3>
+
+<div class="collapse-group" id="presdgfipgroup">
+    <div style="display: inline-flex;">
+        <h4 class="m-auto text-decoration-underline pe-2 collapser" id="presdgfiptext">Présentation de l'organisation</h4>
+        <p class="m-auto collapse-arrow collapser" id="presdgfiparrow">▶</p>
+    </div>
+    <div class="collapse" id="presdgfip">
+        <div class="pt-3">
+            <div class="card card-body" style="width: fit-content; height: fit-content; margin: auto">
+                <p style="margin: 0; text-align: justify">
+                    La <span data-bs-toggle="tooltip" data-bs-title="Direction Générale des Finances Publiques">DGFiP</span> est une administration du ministère de l’Économie, des Finances et de l'Industrie et du ministère du Budget et des Comptes Publics. C'est une direction à réseau implantée sur l’ensemble du territoire, au travers des directions régionales et départementales des finances publiques, et de ses directions nationales et spécialisées, qui compte 95 000 agents.<br/>
+                    Les Finances publiques coordonnent les flux financiers visant à financer les services publics et soutenir la vie économique du pays, tout en veillant au respect des règles budgétaires.<br/>
+                    Dotés d’un patrimoine applicatif de 800 applications, les services informatiques et numériques des Finances publiques, qui emploient 5 200 agents, se situent au cœur de la stratégie numérique de l’État, de la vie des collectivités locales, des entreprises et des citoyens.<br/>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="collapse-group pt-2" id="presctxgroup">
+    <div style="display: inline-flex;">
+        <h4 class="m-auto text-decoration-underline pe-2 collapser" id="presctxtext">Présentation du contexte</h4>
+        <p class="m-auto collapse-arrow collapser" id="presctxarrow">▶</p>
+    </div>
+    <div class="collapse" id="presctx">
+        <div class="pt-3">
+            <div class="card card-body" style="width: fit-content; height: fit-content; margin: auto">
+                <p style="margin: 0; text-align: justify">
+                    Au sein de la DGFiP, on retrouve les <span data-bs-toggle="tooltip" data-bs-title="Établissement de Services Informatiques">ESIs</span> qui sont pilotés par les 7 <span data-bs-toggle="tooltip" data-bs-title="Direction de Services Informatiques">DiSIs</span> sur le territoire.<br/>
+                    Les ESIs ont pour but de mettre en place les outils nécessaires au bon fonctionnement des différents services de la DGFiP.<br/>
+                    Personnellement, j'ai été pris en stage pendant 5 semaines à l'ESI de Châlons-en-Champagne qui est lui-même piloté par la DiSI Grand-Est.<br/>
+                    Plus particulièrement, j'ai été stagiaire au sein de la division assistance de l'ESI en tant qu'agent de la <span data-bs-toggle="tooltip" data-bs-title="Cellule Informatique Départementale">CID</span> 51.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="collapse-group pt-2" id="presmissionsgroup">
+    <div style="display: inline-flex;">
+        <h4 class="m-auto text-decoration-underline pe-2 collapser" id="presmissionstext">Présentation des missions</h4>
+        <p class="m-auto collapse-arrow collapser" id="presmissionsarrow">▶</p>
+    </div>
+    <div class="collapse" id="presmissions">
+        <div class="pt-3">
+            <div class="card card-body" style="width: fit-content; height: fit-content; margin: auto">
+                <ul style="margin: 0; width: fit-content; text-align: justify">
+                    <li><strong>Assistance aux utilisateurs</strong> : les utilisateurs rencontrant des problèmes avec l'utilisation des services de la DGFIP ont accès à une solution de ticketing personalisée permettant de créer des tickets d'incidents qui pourront ensuite être traités et envoyés à la CID ou a un autre service s'il s'agit d'un cas un peu plus compliqué avec un besoin de matériel supplémentaire. Ces tickets peuvent concerner un matériel spécifique qui est indiqué sur le ticket par un numéro d'inventaire.</li>
+                    <li><strong>Requêtes en SQL assisté sur les tickets d'incidents</strong> : les tickets d'incidents sont archivés et stockés dans une base de données spécifique que l'on peut interroger. Cela peut être particulièrement utile quand on recherche une solution à un problème qui a été traité dans un autre ticket. Il est possible d'ajouter des champs à retourner et des conditions sur les champs. Le logiciel va ensuite transformer la requête en SQL (qu'il est possible de voir) puis retourner le résultat.</li>
+                    <li><strong>Démontage d'ordinateurs pour réparation</strong> : certains ordinateurs (fixes ou portables) devaient être démontés afin de les réparer ou de récupérer les barrettes de <span data-bs-toggle="tooltip" data-bs-title="Random Access Memory">RAM</span> ou le disque dur.</li>
+                    <li><strong>Préparation d'ordinateurs pour l'utilisation</strong> : nous avons eu à préparer des ordinateurs pour leur utilisation par des agents de la DGFIP. Pour ce faire, nous devions installer une image spécifique de Windows puis nous devions la configurer pour les besoins de l'utilisateur.</li>
+                    <li><strong>Formatage disques durs bas niveau</strong> : certains disques durs devaient être formatés. Pour éviter la récupération des données après effacement, un formatage dit bas niveau est utilisé. Le logiciel <a href="https://github.com/PartialVolume/shredos.x86_64" target="_blank">shredos</a> était utilisé. Ce logiciel va réécrire des données aléatoires (ou des 0) sur l'entièreté du disque afin d'en effacer définitivement toutes les données.</li>
+                    <li><strong>Gestion du patrimoine informatique</strong> : la DGFIP nécessite une quantité de matériel conséquente pour subvenir aux besoins de ses agents donc la gestion du patrimoine informatique est très organisée. Les équipements sont répertoriés dans une base de données selon leur numéro d'inventaire. Cette dernière est exploitable par un logiciel de gestion d'inventaire depuis lequel il est possible de suivre leur emplacement, leur état de fonctionnement, la personne qui le possède... Après des durées définies, le matériel doit être changé et désinvesti correctement. J'ai été chargé de préparer du matériel pour désinvestissement ce qui implique la suppression de données, le rangement dans un endroit spécifique, le changement de leur statut... Par ailleurs, nous avons réceptionné des nouveautés et trié le matériel existant afin de mieux les retrouver.</li>
+                    <li><strong>Création d'une <a href="files/Pro/DGFIP/Documentation paramétrage multi-écrans.pdf" target="_blank">documentation</a></strong> : la plupart des agents de la DGFIP ont 2 (ou 3) écrans pour pouvoir travailler plus confortablement. Cette disposition est normalement configurée par les agents de la CID mais il arrive qu'elle se réinitialise suite à des changements dans l'organisation de l'agent. Pour que les agents puissent pallier à ce problème simple d'eux-mêmes, j'ai créé une documentation qui explique pas à pas comment modifier la disposition des écrans.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    
+}
