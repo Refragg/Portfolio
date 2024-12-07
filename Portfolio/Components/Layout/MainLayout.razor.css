@@ -55,8 +55,12 @@ main {
     .sidebar {
         width: 255px;
         height: 100vh;
-        position: sticky;
+        position: fixed;
         top: 0;
+    }
+
+    main {
+        margin-left: 255px !important;
     }
 
     .top-row {
