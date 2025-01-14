@@ -9,6 +9,16 @@
 <script src="aos/aos.js"></script>
 <script>AOS.init();</script>
 
+<noscript>
+    <style>
+        #projects-grid * {
+            opacity: 1 !important;
+            transition: all 0.3s !important;
+            transform: none !important;
+        }
+    </style>
+</noscript>
+
 <h3>Projets</h3>
 
 Voici les différents projets sur lesquels j'ai travaillé :
@@ -68,7 +78,7 @@ Voici les différents projets sur lesquels j'ai travaillé :
             _currentAnimationDelay = Math.Min(_currentAnimationDelay, AnimationMaxDelay);
             <div class="col-sm" id="projects-grid">
                 <div data-aos-anchor="#projects-grid" data-aos="fade-up" data-aos-once="true" data-aos-delay="@_currentAnimationDelay">
-                    <div class="location-changer card mx-auto" href="@projet.Link">
+                    <a class="location-changer card mx-auto" href="@projet.Link" style="text-decoration: none; color: initial">
                         <img class="card-img-top" src="@projet.ThumbnailPath" alt="Image du projet">
                         <div class="card-body">
                             <h5 class="card-title">@projet.Name</h5>
@@ -85,7 +95,7 @@ Voici les différents projets sur lesquels j'ai travaillé :
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         }

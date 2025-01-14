@@ -1,0 +1,12 @@
+﻿.collapse-arrow {
+    transform: rotate(90deg) !important;
+    transition: all .25s !important;
+}
+
+.collapser {
+    cursor: initial !important;
+}
+
+.collapse {
+    display: initial !important;
+}
