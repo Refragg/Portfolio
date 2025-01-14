@@ -13,6 +13,21 @@
     <script src="jquery-3.7.1.min.js"></script>
     <script src="bootstrap/bootstrap.bundle.min.js"></script>
     
+    <style>
+        /* On page load, fade in the main content */
+        @@keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        main {
+            animation: 0.8s ease-out 0s 1 fadeIn;
+        }
+    </style>
+    
     <script>
         function fadeOut(elementSelector, duration, link) {
             $(elementSelector).fadeOut(duration, function() {
@@ -20,9 +35,8 @@
             });
         }
         
+        // Initiate a fade out animation when loading a new page
         window.addEventListener('load', function () {
-            $('main').hide().fadeIn(800);
-
             $('.location-changer').click(function(){
                 fadeOut('main', 400, $(this).attr('href'))
                 return false;
