@@ -1,0 +1,140 @@
+﻿@page "/pro/pcf"
+
+<link rel="stylesheet" href="collapse.css">
+<noscript><link rel="stylesheet" href="collapse-nojs.css"></noscript>
+<script src="collapse.js"></script>
+<script src="pdfjs/pdf.mjs" type="module"></script>
+<script src="pdf-display.mjs" type="module"></script>
+<link href="aos/aos.css" rel="stylesheet">
+
+<script type="module">
+    import { setPdfOptions } from '/pdf-display.mjs';
+
+    $(document).ready(function() {
+        setPdfOptions(
+            '/files/Pro/PCF/Compte rendu.pdf',
+            2.0,
+            document.getElementById('pdf-canvas'),
+            [document.getElementById('prev'), document.getElementById('prev-bottom')],
+            [document.getElementById('next'), document.getElementById('next-bottom')],
+            [document.getElementById('page-num'), document.getElementById('page-num-bottom')],
+            [document.getElementById('page-count'), document.getElementById('page-count-bottom')],
+        )
+    });
+</script>
+
+<script>
+    window.addEventListener('load', function (e) {
+        // Trigger the collapse animation on load
+        toggleCollapsable("prespcf", "prespcfarrow")
+
+        // Add on click event listeners
+        document.getElementById("prespcftext").addEventListener('click', function (e) { toggleCollapsable("prespcf", "prespcfarrow");})
+        document.getElementById("prespcfarrow").addEventListener('click', function (e) { toggleCollapsable("prespcf", "prespcfarrow");})
+    })
+</script>
+
+<style>
+    article {
+        overflow: hidden;
+    }
+    #pdf-canvas, #pdf-iframe {
+        max-width: 90%;
+        width: 90%;
+        box-shadow: 0px 0px 20px black;
+        margin-bottom: 2rem;
+    }
+    #pdf-canvas {
+        position: relative;
+        left: -100px;
+    }
+    #pdf-iframe {
+        margin-top: 2rem;
+        aspect-ratio: 9 / 16;
+    }
+    
+    article:has(#pdf-canvas:not(.pdf-ready)) .pagination,
+    #pdf-canvas:not(.pdf-ready) {
+        transition: all .5s;
+        opacity: 0;
+    }
+    article:has(#pdf-canvas.pdf-ready) .pagination,
+    #pdf-canvas.pdf-ready {
+        transition: all .5s;
+        opacity: 1;
+    }
+    .pagination {
+        margin: 1rem auto 2rem auto;
+        width: fit-content;
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+<PageTitle>Portfolio - PCF Marne</PageTitle>
+
+<a class="location-changer btn btn-outline-primary" role="button" href="pro">
+    <span class="bi-arrow-return-left" style="font-size: 1.20rem; margin-right: 0.2rem;"></span>
+    Retour aux expériences professionnelles
+</a>
+
+<h3 style="padding-top: 0.5rem">Parti Communiste Français Marne</h3>
+
+<div class="collapse-group" id="prespcfgroup" style="margin-bottom: 0.5rem">
+    <div style="display: inline-flex;">
+        <h4 class="m-auto text-decoration-underline pe-2 collapser" id="prespcftext">Présentation de l'organisation</h4>
+        <p class="m-auto collapse-arrow collapser" id="prespcfarrow">▶</p>
+    </div>
+    <div class="collapse" id="prespcf">
+        <div class="pt-3">
+            <div class="card card-body" style="width: fit-content; height: fit-content; margin: auto">
+                <p style="margin: 0; text-align: justify">
+                    L'association Parti Communiste Français est un parti politique agissant à travers toute la France.<br>
+                    Une importante partie de l'association porte sur la communication avec les adhérents et les français en général.<br>
+                    Par conséquent, il est vital d'avoir un site internet développé et des outils appropriés pour gérer la communication.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="padding-top: 0.5rem">
+    <a class="btn btn-outline-primary" role="button" href="/files/Pro/PCF/Compte rendu.pdf" target="_blank">
+        <span class="bi-journal-check" style="font-size: 1.20rem; margin-right: 0.2rem;"></span>
+        Télécharger le compte rendu
+    </a>
+</div>
+
+<noscript>
+    <iframe id="pdf-iframe" src="/files/Pro/PCF/Compte rendu.pdf"></iframe>
+</noscript>
+
+<div class="pagination">
+    <a class="btn btn-outline-primary" role="button" id="prev" style="border-radius: 20px">
+        <span class="bi-arrow-left" style="font-size: 1.20rem;"></span>
+    </a>
+    <div id="page-actuelle" style="width: fit-content; height: 100%">
+        <span style="margin-left: 0.5rem; margin-right: 0.5rem"> <span id="page-num"></span> / <span id="page-count"></span> </span>
+    </div>
+    <a class="btn btn-outline-primary" role="button" id="next" style="border-radius: 20px">
+        <span class="bi-arrow-right" style="font-size: 1.20rem;"></span>
+    </a>
+</div>
+
+<canvas id="pdf-canvas"></canvas>
+
+<div class="pagination">
+    <a class="btn btn-outline-primary" role="button" id="prev-bottom" style="border-radius: 20px">
+        <span class="bi-arrow-left" style="font-size: 1.20rem;"></span>
+    </a>
+    <div id="page-actuelle-bottom" style="width: fit-content; height: 100%">
+        <span style="margin-left: 0.5rem; margin-right: 0.5rem"> <span id="page-num-bottom"></span> / <span id="page-count-bottom"></span> </span>
+    </div>
+    <a class="btn btn-outline-primary" role="button" id="next-bottom" style="border-radius: 20px">
+        <span class="bi-arrow-right" style="font-size: 1.20rem;"></span>
+    </a>
+</div>
+
+@code {
+    
+}

@@ -143,10 +143,19 @@ Voici les différentes expériences professionnelles que j'ai pu avoir :
     }
 
     private List<Experience> GetExperiences() =>
-        [new Experience("Direction Générale des Finances Publiques",
+        [
+            new Experience("Direction Générale des Finances Publiques",
             "Agent Cellule Informatique Départementale",
-            "files/Pro/DGFIP/dgfip.png",
+            "/files/Pro/DGFIP/dgfip.png",
             "BTS SIO\n1ère année",
             "Stage de 5 semaines",
-            "/pro/dgfip")];
+            "/pro/dgfip"),
+            
+            new Experience("Parti Communiste Français Marne",
+                "Développeur fullstack",
+                "/files/Pro/PCF/pcf.png",
+                "BTS SIO\n2ème année",
+                "Stage de 5 semaines",
+                "/pro/pcf")
+        ];
 }
