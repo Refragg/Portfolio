@@ -1,9 +1,11 @@
 ﻿import * as pdfjsLib from '/pdfjs/pdf.mjs';
+import {TextLayer} from "/pdfjs/pdf.mjs";
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.mjs';
 
 let url = null;
 let scale = 2.0;
 let canvas = null;
+let textLayer = null;
 let ctx = null;
 
 let pageNumElements = null;
@@ -14,10 +16,13 @@ let pageNum = 1;
 let pageRendering = false;
 let pageNumPending = null;
 
-export function setPdfOptions(pdfUrl, pdfScale, canvasElement, previousButtons, nextButtons, pdfPageNumElements, pdfPageCountElements) {
+let viewerStyleSheetEnabled = false;
+
+export function setPdfOptions(pdfUrl, pdfScale, canvasElement, textLayerElement, previousButtons, nextButtons, pdfPageNumElements, pdfPageCountElements) {
     url = pdfUrl;
     scale = pdfScale;
     canvas = canvasElement;
+    textLayer = textLayerElement;
     ctx = canvas.getContext('2d');
     pageNumElements = pdfPageNumElements;
     pageCountElements = pdfPageCountElements;
@@ -38,6 +43,27 @@ export function setPdfOptions(pdfUrl, pdfScale, canvasElement, previousButtons, 
         // Initial/first page rendering
         renderPage(pageNum);
     });
+
+    addEventListener("resize", (event) => {
+        if (textLayer === null)
+            return;
+
+        pdfDoc.getPage(pageNum).then(function (page) {
+            renderTextLayer(page);
+        });
+    });
+
+    document.getElementById('toggler').addEventListener('click', function () {
+        setTimeout(function () { recomputeTextLayerPosition() }, 1000);
+    })
+}
+
+function recomputeTextLayerPosition() {
+    if (textLayer === null)
+        return;
+
+    textLayer.style.left = (canvas.offsetLeft + 100)  + 'px';
+    textLayer.style.top = canvas.offsetTop + 'px';
 }
 
 /**
@@ -70,12 +96,47 @@ function renderPage(num) {
                 renderPage(pageNumPending);
                 pageNumPending = null;
             }
+            return page.getTextContent();
+        }).then(function (textContent) {
+            renderTextLayer(page);
         });
     });
 
     // Update page counters
     for (const pageNumElement of pageNumElements)
         pageNumElement.textContent = num;
+}
+
+function renderTextLayer(page) {
+    if (textLayer === null)
+        return;
+    
+    let viewport = page.getViewport({ scale: 1.0 })
+    
+    // Clear HTML for text layer
+    textLayer.innerHTML = '';
+
+    // Assign the CSS created to the text-layer element
+    textLayer.style.setProperty('--scale-factor', canvas.clientWidth / viewport.width);
+    textLayer.style.left = (canvas.offsetLeft + 100)  + 'px';
+    textLayer.style.top = canvas.offsetTop + 'px';
+
+    // Pass the data to the method for rendering of text over the pdf canvas.
+    const textLayerRenderer = new TextLayer({
+        textContentSource: page.streamTextContent(),
+        viewport: viewport,
+        container: textLayer,
+    })
+    textLayerRenderer.render();
+    textLayer.style.width = canvas.clientWidth + 'px';
+    textLayer.style.height = canvas.clientHeight + 'px';
+    
+    // Enable the pdf-viewer stylesheet (we disable it because this stylesheets disables all other input until the PDF file is loaded)
+    if (!viewerStyleSheetEnabled) {
+        let linkElement = document.getElementById('pdf-viewer-css')
+        linkElement.disabled = false;
+        viewerStyleSheetEnabled = true;
+    }
 }
 
 /**

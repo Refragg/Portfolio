@@ -15,12 +15,16 @@
             '/files/Pro/PCF/Compte rendu.pdf',
             2.0,
             document.getElementById('pdf-canvas'),
+            document.getElementById('text-layer'),
             [document.getElementById('prev'), document.getElementById('prev-bottom')],
             [document.getElementById('next'), document.getElementById('next-bottom')],
             [document.getElementById('page-num'), document.getElementById('page-num-bottom')],
             [document.getElementById('page-count'), document.getElementById('page-count-bottom')],
         )
     });
+</script>
+<script>
+    document.write('<link href="pdfjs/pdf-viewer.css" rel="stylesheet" id="pdf-viewer-css" disabled>');
 </script>
 
 <script>
@@ -122,6 +126,7 @@
 </div>
 
 <canvas id="pdf-canvas"></canvas>
+<div id="text-layer" class="textLayer"></div>
 
 <div class="pagination">
     <a class="btn btn-outline-primary" role="button" id="prev-bottom" style="border-radius: 20px">

@@ -7,6 +7,25 @@
 <script src="aos/aos.js"></script>
 <script>AOS.init();</script>
 
+<script src="pdfjs/pdf.mjs" type="module"></script>
+<script src="pdf-display.mjs" type="module"></script>
+<script type="module">
+    import { setPdfOptions } from '/pdf-display.mjs';
+
+    $(document).ready(function() {
+        setPdfOptions(
+            '/files/CV.pdf',
+            2.0,
+            document.getElementById('pdf-canvas'),
+            document.getElementById('text-layer'),
+            [], [], [], []
+        )
+    });
+</script>
+<script>
+    document.write('<link href="pdfjs/pdf-viewer.css" rel="stylesheet" id="pdf-viewer-css" disabled>');
+</script>
+
 <noscript>
     <style>
         #img-cv {
@@ -40,6 +59,27 @@
         margin-top: 2rem;
         margin-bottom: 2rem;
     }
+
+    #pdf-canvas {
+        max-width: 90%;
+        width: 90%;
+        box-shadow: 0px 0px 20px black;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+    #pdf-canvas {
+        position: relative;
+        left: -100px;
+    }
+    
+    #pdf-canvas:not(.pdf-ready) {
+        transition: all .5s;
+        opacity: 0;
+    }
+    #pdf-canvas.pdf-ready {
+        transition: all .5s;
+        opacity: 1;
+    }
 </style>
 
 <div class="d-flex justify-content-center">
@@ -54,4 +94,9 @@
     </div>
 </div>
 
-<img class="img-fluid" data-aos="fade-right" id="img-cv" src="files/CV.svg"/>
+<noscript>
+    <h6><i>Afin de pouvoir sélectionner le texte et les liens dans le CV, veuillez activer JavaScript</i></h6>
+    <img class="img-fluid" data-aos="fade-right" id="img-cv" src="files/CV.svg"/>
+</noscript>
+<canvas id="pdf-canvas"></canvas>
+<div id="text-layer" class="textLayer"></div>
