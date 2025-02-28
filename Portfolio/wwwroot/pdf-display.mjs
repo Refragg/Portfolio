@@ -1,5 +1,5 @@
 ﻿import * as pdfjsLib from '/pdfjs/pdf.mjs';
-import {TextLayer} from "/pdfjs/pdf.mjs";
+import {AnnotationLayer, TextLayer} from "/pdfjs/pdf.mjs";
 pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.mjs';
 
 let url = null;
@@ -26,8 +26,6 @@ export function setPdfOptions(pdfUrl, pdfScale, canvasElement, textLayerElement,
     ctx = canvas.getContext('2d');
     pageNumElements = pdfPageNumElements;
     pageCountElements = pdfPageCountElements;
-
-    console.log(previousButtons)
     
     for (const previousButton of previousButtons)
         previousButton.addEventListener('click', onPrevPage);
@@ -113,11 +111,13 @@ function renderTextLayer(page) {
     
     let viewport = page.getViewport({ scale: 1.0 })
     
+    let scaleFactor = canvas.clientWidth / viewport.width
+    
     // Clear HTML for text layer
     textLayer.innerHTML = '';
 
     // Assign the CSS created to the text-layer element
-    textLayer.style.setProperty('--scale-factor', canvas.clientWidth / viewport.width);
+    textLayer.style.setProperty('--scale-factor', scaleFactor);
     textLayer.style.left = (canvas.offsetLeft + 100)  + 'px';
     textLayer.style.top = canvas.offsetTop + 'px';
 
@@ -130,6 +130,31 @@ function renderTextLayer(page) {
     textLayerRenderer.render();
     textLayer.style.width = canvas.clientWidth + 'px';
     textLayer.style.height = canvas.clientHeight + 'px';
+    
+    page.getAnnotations().then(function(annotations) {
+        annotations.forEach(function(annotation) {
+            if (annotation.subtype === 'Link') {
+                // Render a link annotation.
+                const anchorRect = annotation.rect;
+                const anchor = document.createElement('a');
+                let elementHeight = (anchorRect[3] - anchorRect[1]) * scaleFactor;
+                
+                anchor.classList.add('pdf-link');
+                
+                // Not sure how all this math even works but... it does! (at least in this case :))
+                anchor.style.position = 'absolute';
+                anchor.style.left = (anchorRect[0] * scaleFactor) + 'px';
+                anchor.style.bottom = ((anchorRect[1] * scaleFactor) - (elementHeight / 1.5)) + 'px';
+                
+                anchor.style.width = ((anchorRect[2] - anchorRect[0]) * scaleFactor) + 'px';
+                anchor.style.height = elementHeight + 'px';
+                
+                anchor.href = annotation.url
+                anchor.target = '_blank';
+                textLayer.appendChild(anchor);
+            }
+        })
+    })
     
     // Enable the pdf-viewer stylesheet (we disable it because this stylesheets disables all other input until the PDF file is loaded)
     if (!viewerStyleSheetEnabled) {
