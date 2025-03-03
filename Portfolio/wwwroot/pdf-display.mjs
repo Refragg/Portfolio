@@ -10,6 +10,7 @@ let ctx = null;
 
 let pageNumElements = null;
 let pageCountElements = null;
+let layoutModifierElements = null
 
 let pdfDoc = null;
 let pageNum = 1;
@@ -17,8 +18,9 @@ let pageRendering = false;
 let pageNumPending = null;
 
 let viewerStyleSheetEnabled = false;
+let alternativeAnnotationYCalc = false;
 
-export function setPdfOptions(pdfUrl, pdfScale, canvasElement, textLayerElement, previousButtons, nextButtons, pdfPageNumElements, pdfPageCountElements) {
+export function setPdfOptions(pdfUrl, pdfScale, canvasElement, textLayerElement, previousButtons, nextButtons, pdfPageNumElements, pdfPageCountElements, pageLayoutModifierElements, useModifiedAnnotationYCalculation = false) {
     url = pdfUrl;
     scale = pdfScale;
     canvas = canvasElement;
@@ -26,6 +28,11 @@ export function setPdfOptions(pdfUrl, pdfScale, canvasElement, textLayerElement,
     ctx = canvas.getContext('2d');
     pageNumElements = pdfPageNumElements;
     pageCountElements = pdfPageCountElements;
+    
+    pageLayoutModifierElements.push(document.getElementById('toggler'));
+    layoutModifierElements = pageLayoutModifierElements;
+    
+    alternativeAnnotationYCalc = useModifiedAnnotationYCalculation;
     
     for (const previousButton of previousButtons)
         previousButton.addEventListener('click', onPrevPage);
@@ -50,10 +57,12 @@ export function setPdfOptions(pdfUrl, pdfScale, canvasElement, textLayerElement,
             renderTextLayer(page);
         });
     });
-
-    document.getElementById('toggler').addEventListener('click', function () {
-        setTimeout(function () { recomputeTextLayerPosition() }, 1000);
-    })
+    
+    for (const layoutModifierElement of layoutModifierElements) {
+        layoutModifierElement.addEventListener('transitionend', function () {
+            recomputeTextLayerPosition();
+        })
+    }
 }
 
 function recomputeTextLayerPosition() {
@@ -144,13 +153,30 @@ function renderTextLayer(page) {
                 // Not sure how all this math even works but... it does! (at least in this case :))
                 anchor.style.position = 'absolute';
                 anchor.style.left = (anchorRect[0] * scaleFactor) + 'px';
-                anchor.style.bottom = ((anchorRect[1] * scaleFactor) - (elementHeight / 1.5)) + 'px';
+                if (alternativeAnnotationYCalc)
+                    anchor.style.bottom = ((anchorRect[1] * scaleFactor) - (elementHeight / 1.5)) + 'px';
+                else 
+                    anchor.style.bottom = ((anchorRect[1] * scaleFactor)) + 'px';
                 
                 anchor.style.width = ((anchorRect[2] - anchorRect[0]) * scaleFactor) + 'px';
                 anchor.style.height = elementHeight + 'px';
+
+                // Check whether we're dealing with a regular link or a link to another page of the PDF document
+                if (annotation.dest != null) {
+                    pdfDoc.getPageIndex(annotation.dest[0]).then(function(pageIndex) {
+                        anchor.style.cursor = 'pointer';
+                        anchor.addEventListener('click', (event) => {
+                            pageNum = pageIndex + 1
+                            queueRenderPage(pageNum);
+                            window.scrollTo(canvas.offsetLeft + (canvas.clientWidth / 2), canvas.offsetTop - 85)
+                        })
+                    });
+                }
+                else {
+                    anchor.href = annotation.url
+                    anchor.target = '_blank';
+                }
                 
-                anchor.href = annotation.url
-                anchor.target = '_blank';
                 textLayer.appendChild(anchor);
             }
         })
@@ -180,8 +206,11 @@ function queueRenderPage(num) {
  * Displays previous page.
  */
 function onPrevPage() {
-    if (pageNum <= 1)
+    if (pageNum <= 1) {
+        pageNum = pdfDoc.numPages
+        queueRenderPage(pageNum)
         return;
+    }
     
     pageNum--;
     queueRenderPage(pageNum);
@@ -191,8 +220,11 @@ function onPrevPage() {
  * Displays next page.
  */
 function onNextPage() {
-    if (pageNum >= pdfDoc.numPages)
+    if (pageNum >= pdfDoc.numPages) {
+        pageNum = 1
+        queueRenderPage(pageNum)
         return;
+    }
     
     pageNum++;
     queueRenderPage(pageNum);
