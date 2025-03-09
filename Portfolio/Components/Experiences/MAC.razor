@@ -1,4 +1,4 @@
-﻿@page "/pro/pcf"
+﻿@page "/pro/mac"
 
 <link rel="stylesheet" href="collapse.css">
 <noscript><link rel="stylesheet" href="collapse-nojs.css"></noscript>
@@ -12,7 +12,7 @@
 
     $(document).ready(function() {
         setPdfOptions(
-            '/files/Pro/PCF/Compte rendu.pdf',
+            '/files/Pro/MAC/Compte rendu.pdf',
             2.0,
             document.getElementById('pdf-canvas'),
             document.getElementById('text-layer'),
@@ -20,7 +20,7 @@
             [document.getElementById('next'), document.getElementById('next-bottom')],
             [document.getElementById('page-num'), document.getElementById('page-num-bottom')],
             [document.getElementById('page-count'), document.getElementById('page-count-bottom')],
-            [document.getElementById('prespcf')]
+            [document.getElementById('presmac')]
         )
     });
 </script>
@@ -31,11 +31,11 @@
 <script>
     window.addEventListener('load', function (e) {
         // Trigger the collapse animation on load
-        toggleCollapsable("prespcf", "prespcfarrow")
+        toggleCollapsable("presmac", "presmacarrow")
 
         // Add on click event listeners
-        document.getElementById("prespcftext").addEventListener('click', function (e) { toggleCollapsable("prespcf", "prespcfarrow");})
-        document.getElementById("prespcfarrow").addEventListener('click', function (e) { toggleCollapsable("prespcf", "prespcfarrow");})
+        document.getElementById("presmactext").addEventListener('click', function (e) { toggleCollapsable("presmac", "presmacarrow");})
+        document.getElementById("presmacarrow").addEventListener('click', function (e) { toggleCollapsable("presmac", "presmacarrow");})
     })
 </script>
 
@@ -85,27 +85,26 @@
     }
 </style>
 
-<PageTitle>Portfolio - PCF Marne</PageTitle>
+<PageTitle>Portfolio - Marne Actualités Communication</PageTitle>
 
 <a class="location-changer btn btn-outline-primary" role="button" href="pro">
     <span class="bi-arrow-return-left" style="font-size: 1.20rem; margin-right: 0.2rem;"></span>
     Retour aux expériences professionnelles
 </a>
 
-<h3 style="padding-top: 0.5rem">Parti Communiste Français Marne</h3>
+<h3 style="padding-top: 0.5rem">Marne Actualités Communication</h3>
 
-<div class="collapse-group" id="prespcfgroup" style="margin-bottom: 0.5rem">
+<div class="collapse-group" id="presmacgroup" style="margin-bottom: 0.5rem">
     <div style="display: inline-flex;">
-        <h4 class="m-auto text-decoration-underline pe-2 collapser" id="prespcftext">Présentation de l'organisation</h4>
-        <p class="m-auto collapse-arrow collapser" id="prespcfarrow">▶</p>
+        <h4 class="m-auto text-decoration-underline pe-2 collapser" id="presmactext">Présentation de l'organisation</h4>
+        <p class="m-auto collapse-arrow collapser" id="presmacarrow">▶</p>
     </div>
-    <div class="collapse" id="prespcf">
+    <div class="collapse" id="presmac">
         <div class="pt-3">
             <div class="card card-body" style="width: fit-content; height: fit-content; margin: auto">
                 <p style="margin: 0; text-align: justify">
-                    L'association Parti Communiste Français est un parti politique agissant à travers toute la France.<br>
-                    Une importante partie de l'association porte sur la communication avec les adhérents et les français en général.<br>
-                    Par conséquent, il est vital d'avoir un site internet développé et des outils appropriés pour gérer la communication.
+                    L'entreprise Marne Actualités Communication est une agence de communication implantée sur la commune de Reims dans la Marne.<br/>
+                    Elle a pour mission de mettre en œuvre des solutions numériques (site internet, réseaux sociaux) et papiers (flyers, affiches) pour accompagner les particuliers et les entreprises dans leur communication.
                 </p>
             </div>
         </div>
@@ -113,14 +112,14 @@
 </div>
 
 <div style="padding-top: 0.5rem">
-    <a class="btn btn-outline-primary" role="button" href="/files/Pro/PCF/Compte rendu.pdf" target="_blank">
+    <a class="btn btn-outline-primary" role="button" href="/files/Pro/MAC/Compte rendu.pdf" target="_blank">
         <span class="bi-journal-check" style="font-size: 1.20rem; margin-right: 0.2rem;"></span>
         Télécharger le compte rendu
     </a>
 </div>
 
 <noscript>
-    <iframe id="pdf-iframe" src="/files/Pro/PCF/Compte rendu.pdf"></iframe>
+    <iframe id="pdf-iframe" src="/files/Pro/MAC/Compte rendu.pdf"></iframe>
 </noscript>
 
 <div class="pagination">
