@@ -1,0 +1,63 @@
+﻿@page "/veille"
+
+<link rel="stylesheet" href="collapse.css">
+<noscript><link rel="stylesheet" href="collapse-nojs.css"></noscript>
+<script src="collapse.js"></script>
+
+<PageTitle>Portfolio - Veille technologique</PageTitle>
+
+<script>
+    window.addEventListener('load', function (e) {
+        // Trigger the collapse animation on load
+        toggleCollapsable("presveille", "presveillearrow")
+        toggleCollapsable("presveilleoutils", "presveilleoutilsarrow")
+
+        // Add on click event listeners
+        document.getElementById("presveilletext").addEventListener('click', function (e) { toggleCollapsable("presveille", "presveillearrow");})
+        document.getElementById("presveillearrow").addEventListener('click', function (e) { toggleCollapsable("presveille", "presveillearrow");})
+
+        document.getElementById("presveilleoutilstext").addEventListener('click', function (e) { toggleCollapsable("presveilleoutils", "presveilleoutilsarrow"); })
+        document.getElementById("presveilleoutilsarrow").addEventListener('click', function (e) { toggleCollapsable("presveilleoutils", "presveilleoutilsarrow"); })
+    })
+</script>
+
+<h3>Veille technologique et auto formation</h3>
+
+<div class="collapse-group" id="presveillegroup">
+    <div style="display: inline-flex;">
+        <h4 class="m-auto text-decoration-underline pe-2 collapser" id="presveilletext">En quoi consiste la veille technologique ?</h4>
+        <p class="m-auto collapse-arrow collapser" id="presveillearrow">▶</p>
+    </div>
+    <div class="collapse" id="presveille">
+        <div class="pt-3">
+            <div class="card card-body" style="width: fit-content; height: fit-content; margin: auto">
+                <p style="margin: 0; text-align: justify">
+                    La veille technologique consiste à mettre en oeuvre des techniques permettant la collecte, le stockage et le traitement d'informations concernant un outil, un logiciel, une technologie...<br/>
+                    La veille technologique permet de rester informé des innovations dans un monde où la technologie est en évolution constante.<br>
+                    Elle permet également de s'intéresser à de nouvelles technologies et peut donner des possibilités d'auto formation selon les contenus choisis. 
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="collapse-group pt-2" id="presveilleoutilsgroup">
+    <div style="display: inline-flex;">
+        <h4 class="m-auto text-decoration-underline pe-2 collapser" id="presveilleoutilstext">Comment ai-je mis en place ma veille technologique ?</h4>
+        <p class="m-auto collapse-arrow collapser" id="presveilleoutilsarrow">▶</p>
+    </div>
+    <div class="collapse" id="presveilleoutils">
+        <div class="pb-2 pt-3">
+            <div class="card card-body" style="width: fit-content; height: fit-content; margin: auto">
+                <p style="margin: 0; text-align: justify">
+                    Ma veille technologique est centrée sur le visionnage de créateurs de contenus dans le domaine des technologies.<br/>
+                    Le moyen principal que j'utilise (et celui qui va être explicité ici) est de suivre une variété de créateurs de contenus principalement sur la plateforme YouTube.<br/>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    
+}
