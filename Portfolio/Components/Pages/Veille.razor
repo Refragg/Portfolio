@@ -1,8 +1,25 @@
 ﻿@page "/veille"
+@using System.Text.Json
+@using System.Web
 
 <link rel="stylesheet" href="collapse.css">
 <noscript><link rel="stylesheet" href="collapse-nojs.css"></noscript>
 <script src="collapse.js"></script>
+
+<link href="aos/aos-delays.css" rel="stylesheet">
+<link href="aos/aos.css" rel="stylesheet">
+<script src="aos/aos.js"></script>
+<script>AOS.init();</script>
+
+<noscript>
+    <style>
+        .veille div {
+            opacity: 1 !important;
+            transition: all 0.3s !important;
+            left: 100px;
+        }
+    </style>
+</noscript>
 
 <PageTitle>Portfolio - Veille technologique</PageTitle>
 
@@ -20,6 +37,101 @@
         document.getElementById("presveilleoutilsarrow").addEventListener('click', function (e) { toggleCollapsable("presveilleoutils", "presveilleoutilsarrow"); })
     })
 </script>
+
+<style>
+    .veille {
+        margin-bottom: 2rem;
+    }
+
+    .veille div .card {
+        transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+    }
+
+    .veille div .card:hover {
+        transform: scale(1.02);
+        box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+    }
+
+    .veille div .card .card-footer {
+        background-color: #F9F9F9;
+    }
+
+    .veille div .card * {
+        text-align: left;
+    }
+    .veille div .card {
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+    .veille div .card .card-header {
+        padding: 1rem 1rem;
+    }
+    .card-img {
+        object-fit: contain;
+    }
+
+    .veille div .card .card-header a .card-img {
+        max-width: 150px;
+        min-width: 150px;
+    }
+    .veille div .card .card-body a .card-img {
+        min-width: 300px;
+        max-width: 300px;
+        
+        object-fit: cover;
+        aspect-ratio: 16 / 9;
+    }
+
+    .veille div .card div a {
+        width: fit-content;
+        height: fit-content;
+        align-self: center;
+        text-decoration: none;
+    }
+
+    .veille div .card .card-header div.col {
+        min-width: 515px;
+    }
+    .veille div .card .card-body div.col {
+        min-width: 365px;
+    }
+    .row {
+        margin: 0;
+    }
+
+    .veille div .card div div.col {
+        margin-top: 1rem;
+    }
+    
+    @@media (max-width: 890px) {
+        .veille div .card .card-header div.col {
+            min-width: 370px;
+        }
+    }
+    @@media (max-width: 740px) {
+        .veille div .card .card-header div.col {
+            min-width: 220px;
+        }
+        .veille div .card .card-body div.col,
+        .veille div .card .card-body a .card-img {
+            min-width: 200px;
+        }
+    }
+    @@media (max-width: 640.98px) {
+        .veille div .card .card-header div.col,
+        .veille div .card .card-body div.col,
+        .veille div .card .card-body a .card-img {
+            min-width: 250px;
+        }
+        .veille div .card .card-header a .card-img {
+            max-width: 100px;
+            min-width: 100px;
+        }
+        .veille div .card .card-body a .card-img {
+            min-width: 150px;
+        }
+    }
+</style>
 
 <h3>Veille technologique et auto formation</h3>
 
@@ -52,12 +164,162 @@
                 <p style="margin: 0; text-align: justify">
                     Ma veille technologique est centrée sur le visionnage de créateurs de contenus dans le domaine des technologies.<br/>
                     Le moyen principal que j'utilise (et celui qui va être explicité ici) est de suivre une variété de créateurs de contenus principalement sur la plateforme YouTube.<br/>
+                    Afin de rester au courant des nouveaux contenus de ces créateurs, j'utilise la plateforme <a href="https://feedly.com/" target="_blank">Feedly</a> qui agrège des contenus de multiples sources en un endroit facile à consulter.
                 </p>
             </div>
         </div>
     </div>
 </div>
 
+<h4 style="margin-top: 2rem">Contenus de la veille technologique :</h4>
+
+<p>Voici des exemples non exhaustifs de créateurs et contenus que j'ai consommé durant ma formation et ce que j'ai pu en tirer :</p>
+
+<div class="d-flex" style="padding-top: 1rem;">
+    <div id="veilles-container">
+        @{ _currentAnimationDelay = AnimationStartTime; }
+        @foreach (var veilleEntry in _veilleEntries)
+        {
+            _currentAnimationDelay += AnimationInterval;
+            _currentAnimationDelay = Math.Min(_currentAnimationDelay, AnimationMaxDelay);
+            <div class="col-sm veille" id="veille">
+                <div data-aos-anchor="#veille" data-aos="fade-right" data-aos-once="true" data-aos-delay="@_currentAnimationDelay">
+                    <div class="card">
+                        <div class="card-header row">
+                            <a class="mx-auto" href="@veilleEntry.ChannelUrl" target="_blank">
+                                <img class="card-img img-fluid ratio ratio-1x1 col" src="@veilleEntry.ChannelThumbnailPath" alt="Image de la chaine">
+                            </a>
+                            <div class="col">
+                                <h5 class="card-title"><a href="@veilleEntry.ChannelUrl" target="_blank">@veilleEntry.ChannelName</a></h5>
+                                <p class="card-text">@veilleEntry.ChannelSummary</p>
+                            </div>
+                        </div>
+                        <div class="card-body row">
+                            <a class="mx-auto" href="@veilleEntry.VideoUrl" target="_blank">
+                                <img class="card-img img-fluid ratio ratio-16x9 mx-auto col" src="@veilleEntry.VideoThumbnailUrl" alt="Miniature de la vidéo">
+                            </a>
+                            <div class="col">
+                                <h5 class="card-title"><a href="@veilleEntry.VideoUrl" target="_blank">@veilleEntry.VideoName</a></h5>
+                                <p class="card-text">@veilleEntry.VideoSummary</p>
+                            </div>
+                        </div>
+                        <div class="card-footer row">
+                            <div>
+                                @veilleEntry.Summary
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
 @code {
-    
+    private const string YouTubeOembedBase = "https://youtube.com/oembed?url=";
+
+    public class VeilleEntry
+    {
+        public string ChannelName;
+        public MarkupString ChannelSummary;
+        public string ChannelThumbnailPath;
+        public string ChannelUrl;
+        public string VideoName;
+        public MarkupString VideoSummary;
+        public string VideoThumbnailUrl;
+        public string VideoUrl;
+        public MarkupString Summary;
+
+        public VeilleEntry(string channelName, MarkupString channelSummary, string channelThumbnailPath, string channelUrl, string videoName, MarkupString videoSummary, string videoUrl, MarkupString summary)
+        {
+            ChannelName = channelName;
+            ChannelSummary = channelSummary;
+            ChannelThumbnailPath = channelThumbnailPath;
+            ChannelUrl = channelUrl;
+            VideoName = videoName;
+            VideoSummary = videoSummary;
+            VideoUrl = videoUrl;
+            Summary = summary;
+        }
+    }
+
+    public static void InitializeThumbnailUrls()
+    {
+        HttpClient client = new HttpClient();
+        foreach (VeilleEntry veilleEntry in _veilleEntries)
+            Task.Run(() => GetVideoThumbnailUrl(veilleEntry, client));
+    }
+
+    private static async Task GetVideoThumbnailUrl(VeilleEntry veilleEntry, HttpClient httpClient)
+    {
+        veilleEntry.VideoThumbnailUrl = "files/Veille/notfound.png";
+        
+        string encodedUrl = HttpUtility.UrlEncode(veilleEntry.VideoUrl);
+
+        JsonDocument? jsonResult = await httpClient.GetFromJsonAsync<JsonDocument>(YouTubeOembedBase + encodedUrl);
+
+        if (jsonResult is null)
+            return;
+        
+        string? thumbnailUrl = jsonResult.RootElement.GetProperty("thumbnail_url").GetString();
+        if (thumbnailUrl is null)
+            return;
+
+        veilleEntry.VideoThumbnailUrl = thumbnailUrl;
+        Console.WriteLine("Got video thumbnail for " + veilleEntry.VideoUrl);
+    }
+
+    private int _currentAnimationDelay;
+
+    private const int AnimationStartTime = 50;
+    private const int AnimationInterval = 400;
+    private const int AnimationMaxDelay = 9000;
+
+    private static List<VeilleEntry> _veilleEntries =
+    [
+        new VeilleEntry("Fireship",
+            new MarkupString("La chaine YouTube Fireship propose des vidéos courtes avec une touche d'humour portant sur les actualités dans le monde du développement de logiciels et des technologies populaires du moment (avec la série de vidéos \"The Code Report\") ainsi que des entrevues rapides sur divers logiciels et technologies utilisés sur le marché (avec la série de vidéos \"100 Seconds Of\")."),
+            "files/Veille/fireship.jpg",
+            "https://www.youtube.com/@Fireship",
+            "CSS just changed forever… plus 7 new features you don't know about",
+            new MarkupString("Cette vidéo comporte une rapide présentation de nouvelles fonctionnalités ajoutées au langage CSS utilisé dans toutes les pages web. Ces fonctionnalités incluent notamment une nouvelle propriété pour centrer un élément HTML, un moyen d'avoir des variables CSS typées, la possibilité de définir de manière plus concise les variétés entre thème clair et sombre et bien d'autres."),
+            "https://www.youtube.com/watch?v=A89FMtIkWKc",
+            new MarkupString("J'ai pu apprendre et mettre en pratique l'utilisation de certaines de ces nouvelles fonctionnalités (notamment les propriétés CSS user-valid, user-invalid, les subgrids...) lors de <a href=\"https://portfolio.jfrancart.fr/pro/mac\">mon stage de 2ème année de BTS SIO</a>.")),
+        
+        new VeilleEntry("Maple Circuit",
+            new MarkupString("Maple Circuit est un créateur de contenu émergeant proposant du contenu principalement axé sur l'explication en détails de comment fonctionne un système  sous GNU/Linux. Cela inclut l'explication en détail d'outils communs, de systèmes de fichiers mais aussi dns une série plus récente (\"Linux From Nothing\") comment une distribution Linux fonctionne et est construite depuis le début."),
+            "files/Veille/maple.jpg",
+            "https://www.youtube.com/@Maple-Circuit",
+            " Linux From Nothing | Kernel, Shell, Libs & Grub",
+            new MarkupString("Dans cette vidéo de la série \"Linux From Nothing\", on peut apprendre étape par étape comment compiler et configurer un système Linux utilisable avec le noyau, un shell, les utilitaires GNU Coreutils habituels d'un système (par exemple : ls, cat, mv... liste complète disponible <a href=\"https://fr.wikipedia.org/wiki/GNU_Core_Utilities\" target=\"_blank\">ici<a/>), le bootloader et plus encore à partir de rien."),
+            "https://youtu.be/fk-KGj3pimA",
+            new MarkupString("Malgré le fait qu'une distribution Linux contient bien plus d'éléments que ce que la vidéo nous montre, il est très intéressant de découvrir les fin fonds d'un système d'exploitation utilisé dans le monde et permet de mieux comprendre comment nos ordinateurs fonctionnent")),
+        
+        new VeilleEntry("Tsoding Daily",
+            new MarkupString("La chaine Tsoding Daily contient principalement des rediffusions des sessions de développement en direct de Tsoding. Tsoding est un créateur de contenu qui programme de façon récréative ce qui lui vient en tête, il diffuse ses sessions en direct d'où l'on peut observer son approche et sa démarche à la résolution de problèmes avancés. Par la nature de ses sessions, il touche et expérimente avec tous les langages de programmation."),
+            "files/Veille/tsoding.jpg",
+            "https://www.youtube.com/@TsodingDaily",
+            "Async vs Multithreading",
+            new MarkupString("Dans cette session, en utilisant le langage <a href=\"https://c3-lang.org/\" target=\"_blank\">C3</a>, Tsoding expérimente et parvient à implémenter un serveur TCP asynchrone permettant l'écoute de plusieurs clients sans pour autant utiliser plusieurs threads. Il utilise pour ce faire sa propre bibliothèque implémentant <a href=\"https://fr.wikipedia.org/wiki/Futures_(informatique)\" target=\"_blank\">le design pattern des futurs</a>."),
+            "https://youtu.be/IGv5WYYmyfo",
+            new MarkupString("Cette session permet de mieux comprendre le fonctionnement derrière les abstractions permettant à une application d'opérer de manière asynchrone. Malgré que ce concept reste complexe et que je ne l'ai pas entièrement compris, j'ai désormais des bases sur son fonctionnement")),
+
+        new VeilleEntry("ThePrimeAgen / ThePrimeTime",
+            new MarkupString("Ingénieur logiciel travaillant à Netflix, ThePrimeAgen depuis sa chaine ThePrimeTime, réagit et ajoute son opinion face aux actualités dans le monde du développement ainsi qu'à des histoires racontées par d'autres développeurs. Ses réactions sont généralement en direct avec notamment ses spectateurs qui peuvent ajouter des anecdotes intéressantes."),
+            "files/Veille/theprimetime.jpg",
+            "https://www.youtube.com/@ThePrimeTimeagen",
+            "\"We Ran Out Of Columns\" - The Worst Codebase Ever",
+            new MarkupString("Dans cette vidéo, ThePrimeAgen réagit à une histoire d'un employé d'une entreprise devant travailler sur des anciens systèmes contenant des bases de données relationnelles avec des décisions sur la modélisation des données plutôt questionnables. En effet, des tables avec plusieurs centaines de colonnes étaient utilisées en plus d'autres problèmes dans le code source de la solution. ThePrimeAgen ajoute des détails avec son expérience et complète cette histoire."),
+            "https://youtu.be/uPrXEtvKFoI",
+            new MarkupString("Cette histoire est notamment intéressante car l'auteur décrit aussi que malgré les différents problèmes encontrés, des solutions ont été implémentées afin de pouvoir contourner les problèmes et maintenir ce système. Malgré la direction ou non d'un projet, certains aspects peuvent éventuellement tourner en de gros problèmes dans le futur mais il est cependant important de savoir travailler avec et trouver des solutions adaptées à la situation.")),
+        
+        new VeilleEntry("Andreas Kling",
+            new MarkupString("Ancien développeur notamment à Nokia et Apple, Andreas Kling a développé pendant plusieurs années le système d'exploitation indépendant SerenityOS. Il se concentre aujourd'hui sur la création d'un nouveau navigateur web indépendant <a href=\"https://ladybird.org/\" target=\"_blank\">Ladybird</a>."),
+            "files/Veille/ak.jpg",
+            "https://www.youtube.com/@awesomekling",
+            "Wrong document URL after parsing some HTML dynamically",
+            new MarkupString("Dans cette vidéo, Andreas Kling travaille sur son navigateur Ladybird et essaye de régler des tests de la série <a href=\"https://web-platform-tests.org/\" target=\"_blank\">web-platform-tests</a> (une série de tests exécutés par tous les navigateurs populaires visant à vérifier la compatibilité des navigateurs avec les standards du web) qui ne passent pas. On peut observer sa démarche afin de régler les tests : il commence par créer une version minimale permettant de reproduire le problème et passe ensuite à la résolution du problème dans le code source du navigateur."),
+            "https://youtu.be/u94YyHu6xa0",
+            new MarkupString("Il est éclairant d'observer la démarche établie par Andreas Kling pour régler des problèmes complexes au niveau d'un moteur de navigateur web qui est très compliqué. De même, il est passionnant de suivre l'évolution constante de ce nouveau navigateur web qui peut potentiellement venir concurrencer les navigateurs web traditionnels."))
+    ];
 }

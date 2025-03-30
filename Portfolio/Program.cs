@@ -1,5 +1,6 @@
 using Microsoft.Extensions.FileProviders;
 using Portfolio.Components;
+using Portfolio.Components.Pages;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,5 +34,7 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+Veille.InitializeThumbnailUrls();
 
 app.Run();
